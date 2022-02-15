@@ -15,21 +15,16 @@ struct PhotoSetView: View {
     
     var body: some View {
         VStack(spacing: 5) {
-            ZStack {
-                ImageView(width: width, photoSet: photoSet)
-                    .cornerRadius(10)
-            }
-            .frame(height: height)
+            ImageView(photoSet: photoSet)
+                .frame(width: width, height: height)
+                .cornerRadius(10)
 
             VStack(spacing: 5) {
                 Text(photoSet.name)
-                    .font(.system(size: 11))
                     .foregroundColor(.black)
                 DateView(date: photoSet.time)
-                    .font(.system(size: 11))
             }
-            .font(.custom("Roboto", size: 11, relativeTo: .caption))
-            .lineLimit(1)
+            .font(.system(size: 11))
         }
         .frame(width: width)
     }
@@ -38,17 +33,10 @@ struct PhotoSetView: View {
 
 private struct ImageView: View {
     
-    let width: CGFloat
     var photoSet: PhotoSet
     
-    @State private var isRotateActive: Bool = false
-    
     var body: some View {
-        if let url = photoSet.previewImageURL {
-            ImageView(url: url)
-        } else {
-            Color.white
-        }
+        ImageView(url: photoSet.previewImageURL)
     }
     
     @ViewBuilder
@@ -57,7 +45,6 @@ private struct ImageView: View {
             image
                 .resizable()
                 .scaledToFill()
-                .frame(width: width)
                 .clipped()
         }, placeholder: {
             ZStack {
@@ -92,20 +79,8 @@ struct PictureSetItem_Previews: PreviewProvider {
     static let height = PhotoSetViewModel.height
     
     static var previews: some View {
-        Group {
-            PhotoSetView(width: width, height: height,
-                         photoSet: PhotoSet(name: "Slipper", time: Date(), previewImageURL: URL(string: "https://oexpo3dappstage.blob.core.windows.net/slipper/baked_mesh.png")))
-                .environment(\.locale, Locale(identifier: "zh_Hant_TW"))
-                .previewDisplayName("zh_Hant_TW")
-            PhotoSetView(width: width, height: height,
-                         photoSet: PhotoSet(name: "Slipper", time: Date(), previewImageURL: URL(string: "https://oexpo3dappstage.blob.core.windows.net/slipper/baked_mesh.png")))
-                .environment(\.locale, Locale(identifier: "ja_JP"))
-                .previewDisplayName("ja_JP")
-            PhotoSetView(width: width, height: height,
-                         photoSet: PhotoSet(name: "Slipper", time: Date(), previewImageURL: URL(string: "https://oexpo3dappstage.blob.core.windows.net/slipper/baked_mesh.png")))
-                .environment(\.locale, Locale(identifier: "en_US"))
-                .previewDisplayName("en_US")
-        }
+        PhotoSetView(width: width, height: height,
+                     photoSet: PhotoSet(name: "Slipper", time: Date(), previewImageURL: URL(string: "https://oexpo3dappstage.blob.core.windows.net/slipper/baked_mesh.png")!))
             .previewLayout(.sizeThatFits)
     }
 }
