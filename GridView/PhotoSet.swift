@@ -11,5 +11,5 @@ struct PhotoSet: Identifiable {
     let id = UUID()
     let name: String
     let time: Date
-    var previewImageURL: URL?
+    var previewImageURL: URL
 }
